@@ -29,17 +29,19 @@ class LocationGroup(models.Model):
 
 
 class PanelProvider(models.Model):
-    code = models.TextField(choices=(("L", "LetterProvider"), ("A", "ArrayProvider"), ("N", "NodeProvider")))
+    code = models.CharField(choices=(("L", "LetterProvider"), ("A", "ArrayProvider"), ("N", "NodeProvider")),
+                            max_length=50)
 
     def __str__(self):
         return self.code
 
 
 class TargetGroup(models.Model):
-    name = models.TextField(max_length=50),
+    name = models.TextField(max_length=50)
     external_id = models.ManyToManyField(Country)
     panel_provider_id = models.ForeignKey(PanelProvider, on_delete=models.CASCADE)  # check on delete
-    parent_id = models.ForeignKey("TargetGroup", on_delete=models.CASCADE, null=True)  # check on delete
+    parent_id = models.ForeignKey("TargetGroup", on_delete=models.CASCADE, null=True, default=None,
+                                  blank=True)  # check on delete
     secret_code = models.TextField()
 
     def __str__(self):
