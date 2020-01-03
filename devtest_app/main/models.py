@@ -48,5 +48,5 @@ class TargetGroup(models.Model):
         return self.name
 
     def clean(self):
-        if self.parent_id is not None:
+        if self.parent_id is not None and self.externail_id is not None:
             raise ValidationError("Country can be set only if target group is root")
